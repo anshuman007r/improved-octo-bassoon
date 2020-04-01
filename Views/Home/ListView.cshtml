@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model List<UserRole>
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "ListView";
+}
+
+<h3 style="padding-left:35%">List of Users and Roles</h3>
+<hr />
+<div style="padding-right:35%;padding-left:35%">
+    <form method="post" style="padding-top:40px">
+        @if (Model.Any())
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                if (User.Identity.Name != Model[i].UserName)
+                {
+                    <div class="form-group">
+                        @Html.DisplayFor(modelItem => Model[i].UserName)
+                    </div>
+                    <input asp-for="@Model[i].UserName" hidden />
+                    <input asp-for="@Model[i].UserId" hidden />
+                    <select asp-for="@Model[i].RoleName">
+                        <option value="User">User</option>
+                        <option value="Acceptor">Acceptor</option>
+                    </select>
+
+                    <hr />
+                }
+
+            }
+        }
+        else
+        {
+            <h1> No user to display</h1>
+        }
+        <div style="padding-top:30px;padding-left:40%" class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
